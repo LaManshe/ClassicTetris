@@ -1,40 +1,78 @@
 package UI;
 
+import GameController.Interfaces.IKeyboardListener;
+
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class TetrisField extends SizablePanel {
-    private final int CountRows = 20;
+    private Field[][] Fields;
 
-    private final int CountColumns = 10;
-
-    public UI.GameController GameController;
-
-    public TetrisField(int width, int height) {
+    public TetrisField(int width, int height, Field[][] fields) {
         super(width + 2, height + 2);
 
-        GameController = new GameController(CountColumns, CountRows);
+        Fields = fields;
+    }
+
+    public void Redraw(Field[][] fields) {
+        Fields = fields;
+
+        repaint();
+    }
+
+    public void EnableKeyEvents(IKeyboardListener listener) {
+        var im = getRootPane().getInputMap();
+        var am = getRootPane().getActionMap();
+
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "space");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
+
+        am.put("space", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Space pressed");
+                listener.onSpaceClick();
+            }
+        });
+
+        am.put("left", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Left pressed");
+                listener.onLeftArrowClick();
+            }
+        });
+
+        am.put("right", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Right pressed");
+                listener.onRightArrowClick();
+            }
+        });
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        GameController.Update();
-
         super.paintComponent(g);
 
         DrawGrid(g);
     }
 
     private void DrawGrid(Graphics g) {
-        int cellWidth = getWidth() / CountColumns - 2;
-        int cellHeight = getHeight() / CountRows - 2;
+        int cellWidth = getWidth() / Fields.length - 2;
+        int cellHeight = getHeight() / Fields[0].length - 2;
 
         g.setColor(Color.BLACK);
-        for (int i = 0; i < CountColumns; i++) {
-            for (int j = 0; j < CountRows; j++) {
+        for (int i = 0; i < Fields.length; i++) {
+            for (int j = 0; j < Fields[0].length; j++) {
                 int cellX = i * cellWidth;
                 int cellY = j * cellHeight;
 
-                if (GameController.Fields[i][j].IsBusy) {
+                if (Fields[i][j].IsBusy) {
                     g.setColor(Color.RED);
                     g.fillRect(cellX, cellY, cellWidth, cellHeight);
                 }

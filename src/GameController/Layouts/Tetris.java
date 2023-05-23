@@ -3,14 +3,21 @@ package GameController.Layouts;
 import GameController.Interfaces.ILayout;
 import GameController.Interfaces.IStartListeners;
 import UI.BackgroundPanel;
-import UI.TetrisField;
+import GameController.GameController;
 import Window.TetrisWindow;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Tetris implements ILayout {
+    private final int CountColumns = 10;
+
+    private final int CountRows = 20;
+
+    public GameController GameController;
+
+    public Tetris() {
+        GameController = new GameController(CountColumns, CountRows);
+    }
 
     @Override
     public void Configure(TetrisWindow window, IStartListeners listener) {
@@ -18,18 +25,12 @@ public class Tetris implements ILayout {
 
         var contentPanel = new BackgroundPanel(window.Content());
 
-        var tetrisPanel = new TetrisField((int)(contentPanel.getWidth() * 0.6), contentPanel.getHeight());
-
-        Timer timer = new Timer(2000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tetrisPanel.repaint();
-            }
-        });
-        timer.start();
+        var tetrisPanel = GameController.GetTetrisField();
 
         contentPanel.add(tetrisPanel);
 
         window.Content().add(contentPanel);
+
+        GameController.start();
     }
 }

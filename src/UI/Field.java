@@ -9,5 +9,6 @@ public class Field {
 
     public Field() {
         IsBusy = false;
+        Position = new Point(-1, -1);
     }
 }

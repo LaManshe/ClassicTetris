@@ -7,7 +7,13 @@ public interface IFigure {
 
     void SetStartPosition();
 
+    Field[] NextMoveDownPosition();
+
     void MoveDown();
 
     void Rotate();
+
+    void MoveRight();
+
+    void MoveLeft();
 }
