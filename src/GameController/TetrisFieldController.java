@@ -1,5 +1,7 @@
 package GameController;
 
+import GameController.Interfaces.IKeyboardListener;
+import GameController.Interfaces.ILineBuildedListeners;
 import Helpers.RandomFigureCreator;
 import UI.Field;
 import UI.Interfaces.IFigure;
@@ -13,6 +15,8 @@ public class TetrisFieldController {
 
     private int _rows;
 
+    private ArrayList<ILineBuildedListeners> _listeners;
+
     public boolean IsFigureFallingNow;
 
     public Field[][] Fields;
@@ -24,6 +28,8 @@ public class TetrisFieldController {
     public TetrisFieldController(int columns, int rows) {
         _columns = columns;
         _rows = rows;
+
+        _listeners = new ArrayList<>();
 
         IsFigureFallingNow = false;
 
@@ -37,6 +43,7 @@ public class TetrisFieldController {
             FigureMoveDown();
         }
         else {
+            ActWithBuildedLines();
             SpawnFigure();
         }
 
@@ -56,6 +63,34 @@ public class TetrisFieldController {
             CurrentFigure.MoveRight();
 
             UpdateFields();
+        }
+    }
+
+    public void AddListener(ILineBuildedListeners listener) {
+        _listeners.add(listener);
+    }
+
+    private void ActWithBuildedLines() {
+        for (int i = 0; i < _rows; i++) {
+            var row = new Field[_columns];
+
+            for (int j = 0; j < _columns; j++) {
+                row[j] = Fields[j][i];
+            }
+
+            if (Arrays.stream(row).allMatch(field -> field.IsBusy)) {
+                int finalI = i;
+
+                AlreadyFallenFields.removeIf(field -> field.Position.y == finalI);
+
+                AlreadyFallenFields.stream()
+                        .filter(field -> field.Position.y < finalI)
+                        .forEach(fieldUpper -> fieldUpper.Position.y++);
+
+                for (ILineBuildedListeners listener : _listeners) {
+                    listener.onLineBuilded();
+                }
+            }
         }
     }
 

@@ -33,7 +33,6 @@ public class TetrisField extends SizablePanel {
         am.put("space", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Space pressed");
                 listener.onSpaceClick();
             }
         });
@@ -41,7 +40,6 @@ public class TetrisField extends SizablePanel {
         am.put("left", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Left pressed");
                 listener.onLeftArrowClick();
             }
         });
@@ -49,7 +47,6 @@ public class TetrisField extends SizablePanel {
         am.put("right", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Right pressed");
                 listener.onRightArrowClick();
             }
         });
