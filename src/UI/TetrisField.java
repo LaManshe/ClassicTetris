@@ -73,11 +73,11 @@ public class TetrisField extends SizablePanel {
                 int cellY = j * cellHeight;
 
                 if (Fields[i][j].IsBusy) {
-                    g.setColor(Color.RED);
+                    g.setColor(Fields[i][j].MyColor);
                     g.fillRect(cellX, cellY, cellWidth, cellHeight);
                 }
 
-                g.setColor(Color.BLACK);
+                g.setColor(Color.GRAY);
                 g.drawRect(cellX, cellY, cellWidth, cellHeight);
             }
         }

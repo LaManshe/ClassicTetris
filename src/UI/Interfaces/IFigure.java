@@ -2,18 +2,28 @@ package UI.Interfaces;
 
 import UI.Field;
 
+import java.awt.*;
+
 public interface IFigure {
-    Field[] Cells();
+    Field[] GetCells();
 
     void SetStartPosition();
 
-    Field[] NextMoveDownPosition();
-
     void MoveDown();
+
+    Field[] MoveDownPrediction();
 
     void Rotate();
 
+    Field[] RotatePrediction();
+
     void MoveRight();
 
+    Field[] MoveRightPrediction();
+
     void MoveLeft();
+
+    Field[] MoveLeftPrediction();
+
+    Field[] DeepClone();
 }
