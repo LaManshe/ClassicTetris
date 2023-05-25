@@ -31,8 +31,11 @@ public class Tetris implements ILayout {
 
         var rightPanel = GameController.GetRightPanel();
 
+        var predictionPanel = GameController.GetPredictionPanel();
+
         contentPanel.add(tetrisPanel);
         contentPanel.add(rightPanel);
+        contentPanel.add(predictionPanel);
 
         window.Content().add(contentPanel);
 

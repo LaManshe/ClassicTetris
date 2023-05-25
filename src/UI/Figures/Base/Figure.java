@@ -10,9 +10,16 @@ public abstract class Figure implements IFigure {
 
     public Field[] Cells;
 
+    public Field[] MatrixView;
+
     @Override
     public Field[] GetCells() {
         return DeepClone();
+    }
+
+    @Override
+    public Field[] GetMatrixView() {
+        return MatrixView;
     }
 
     public Figure(Color color) {
@@ -22,13 +29,25 @@ public abstract class Figure implements IFigure {
                 new Field(FigureColor),
                 new Field(FigureColor),
                 new Field(FigureColor),
-                new Field(FigureColor) };
+                new Field(FigureColor)
+        };
+
+        MatrixView = new Field[] {
+                new Field(FigureColor),
+                new Field(FigureColor),
+                new Field(FigureColor),
+                new Field(FigureColor)
+        };
 
         SetStartPosition();
+        SetPositionMatrixView();
     }
 
     @Override
     public abstract void SetStartPosition();
+
+    @Override
+    public abstract void SetPositionMatrixView();
 
     @Override
     public void MoveDown() {

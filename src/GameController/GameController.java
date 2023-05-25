@@ -2,6 +2,7 @@ package GameController;
 
 import GameController.Interfaces.IKeyboardListener;
 import GameController.Interfaces.ILineBuildedListeners;
+import UI.FigurePredictionPanel;
 import UI.RightPanel;
 import UI.TetrisField;
 
@@ -14,6 +15,8 @@ public class GameController extends Thread implements IKeyboardListener, ILineBu
 
     private final int _rows;
 
+    private Timer _timer;
+
     private TetrisFieldController _tetrisFieldController;
 
     private TetrisField _tetrisField;
@@ -22,12 +25,18 @@ public class GameController extends Thread implements IKeyboardListener, ILineBu
 
     private RightPanel _rightPanel;
 
+    private FigurePredictionPanel _rightPredictionPanel;
+
     public TetrisField GetTetrisField() {
         return _tetrisField;
     }
 
     public RightPanel GetRightPanel() {
         return _rightPanel;
+    }
+
+    public FigurePredictionPanel GetPredictionPanel() {
+        return _rightPredictionPanel;
     }
 
     public GameController(int countColumns, int countRows) {
@@ -38,7 +47,9 @@ public class GameController extends Thread implements IKeyboardListener, ILineBu
         _tetrisField = new TetrisField(400, 800, _tetrisFieldController.Fields);
 
         _rightPanelController = new RightPanelController();
-        _rightPanel = new RightPanel(200, 800);
+        _rightPanel = new RightPanel(200, 500);
+
+        _rightPredictionPanel = new FigurePredictionPanel(200, 300);
 
         _tetrisFieldController.AddListener(this);
     }
@@ -49,35 +60,45 @@ public class GameController extends Thread implements IKeyboardListener, ILineBu
 
         _tetrisField.EnableKeyEvents(this);
 
-        Timer timer = new Timer(300, new ActionListener() {
+        _timer = new Timer(500 - _rightPanelController.GetLevels() * 50, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Update();
             }
         });
 
-        timer.start();
+        _timer.start();
     }
 
     public void Update() {
         _tetrisFieldController.Tick();
 
         _tetrisField.Redraw(_tetrisFieldController.Fields);
+
+        _rightPredictionPanel.SetFigure(_tetrisFieldController.GetNextFigure());
+
+        _timer.setDelay(500 - _rightPanelController.GetLevels() * 50);
     }
 
     @Override
     public void onSpaceClick() {
         _tetrisFieldController.RotateFigure();
+
+        _tetrisField.Redraw(_tetrisFieldController.Fields);
     }
 
     @Override
     public void onRightArrowClick() {
         _tetrisFieldController.MoveRightFigure();
+
+        _tetrisField.Redraw(_tetrisFieldController.Fields);
     }
 
     @Override
     public void onLeftArrowClick() {
         _tetrisFieldController.MoveLeftFigure();
+
+        _tetrisField.Redraw(_tetrisFieldController.Fields);
     }
 
     @Override

@@ -21,4 +21,19 @@ public class ReLFigure extends LFigure{
         Cells[3].IsBusy = true;
         Cells[3].Position = new Point(3, 2);
     }
+
+    @Override
+    public void SetPositionMatrixView() {
+        MatrixView[0].IsBusy = true;
+        MatrixView[0].Position = new Point(2, 1);
+
+        MatrixView[1].IsBusy = true;
+        MatrixView[1].Position = new Point(2, 2);
+
+        MatrixView[2].IsBusy = true;
+        MatrixView[2].Position = new Point(2, 3);
+
+        MatrixView[3].IsBusy = true;
+        MatrixView[3].Position = new Point(1, 3);
+    }
 }

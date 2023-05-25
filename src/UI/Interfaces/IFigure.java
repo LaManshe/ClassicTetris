@@ -7,7 +7,11 @@ import java.awt.*;
 public interface IFigure {
     Field[] GetCells();
 
+    Field[] GetMatrixView();
+
     void SetStartPosition();
+
+    void SetPositionMatrixView();
 
     void MoveDown();
 

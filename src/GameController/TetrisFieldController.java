@@ -17,6 +17,8 @@ public class TetrisFieldController {
 
     private ArrayList<ILineBuildedListeners> _listeners;
 
+    private IFigure _nextFigure;
+
     public boolean IsFigureFallingNow;
 
     public Field[][] Fields;
@@ -36,6 +38,8 @@ public class TetrisFieldController {
         Fields = InitGameField();
 
         AlreadyFallenFields = new ArrayList<>();
+
+        _nextFigure = RandomFigureCreator.GetFigure();
     }
 
     public void Tick() {
@@ -43,8 +47,13 @@ public class TetrisFieldController {
             FigureMoveDown();
         }
         else {
-            ActWithBuildedLines();
-            SpawnFigure();
+            if (CanMove(_nextFigure.GetCells())) {
+                ActWithBuildedLines();
+                SpawnFigure();
+            }
+            else {
+                System.out.println("LOSE");
+            }
         }
 
         UpdateFields();
@@ -121,6 +130,10 @@ public class TetrisFieldController {
         }
     }
 
+    public IFigure GetNextFigure() {
+        return _nextFigure;
+    }
+
     private void UpdateFields() {
         Fields = InitGameField();
 
@@ -136,7 +149,8 @@ public class TetrisFieldController {
     }
 
     private void SpawnFigure() {
-        CurrentFigure = RandomFigureCreator.GetFigure();
+        CurrentFigure = _nextFigure;
+        _nextFigure = RandomFigureCreator.GetFigure();
 
         IsFigureFallingNow = true;
     }
