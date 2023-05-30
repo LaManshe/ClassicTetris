@@ -60,7 +60,7 @@ public class GameController extends Thread implements IKeyboardListener, ILineBu
 
         _tetrisField.EnableKeyEvents(this);
 
-        _timer = new Timer(500 - _rightPanelController.GetLevels() * 50, new ActionListener() {
+        _timer = new Timer(350, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Update();
@@ -77,7 +77,6 @@ public class GameController extends Thread implements IKeyboardListener, ILineBu
 
         _rightPredictionPanel.SetFigure(_tetrisFieldController.GetNextFigure());
 
-        _timer.setDelay(500 - _rightPanelController.GetLevels() * 50);
     }
 
     @Override
@@ -104,6 +103,12 @@ public class GameController extends Thread implements IKeyboardListener, ILineBu
     @Override
     public void onLineBuilded() {
         _rightPanelController.IncrementLines();
+
+        var timerNewLevelDelay = 350 - _rightPanelController.GetLevels() * 100;
+
+        if (timerNewLevelDelay > 0) {
+            _timer.setDelay(300 - _rightPanelController.GetLevels() * 100);
+        }
 
         _rightPanel.Redraw(_rightPanelController);
     }

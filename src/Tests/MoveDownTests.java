@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.awt.*;
 
-public class TetrisTests {
+public class MoveDownTests {
     @Test
     public void Test_CanFigureMoveFromStart() {
         var tetrisFieldController = new TetrisFieldController(10, 20);
