@@ -13,6 +13,9 @@ public class TetrisField extends SizablePanel {
         super(width + 2, height + 2);
 
         Fields = fields;
+
+        setFocusable(true);
+        requestFocusInWindow();
     }
 
     public void Redraw(Field[][] fields) {
@@ -22,7 +25,7 @@ public class TetrisField extends SizablePanel {
     }
 
     public void EnableKeyEvents(IKeyboardListener listener) {
-        var im = getRootPane().getInputMap();
+        var im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         var am = getRootPane().getActionMap();
 
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "space");

@@ -12,6 +12,8 @@ public abstract class Figure implements IFigure {
 
     public Field[] MatrixView;
 
+    public Field RotateCenter;
+
     @Override
     public Field[] GetCells() {
         return DeepClone();
@@ -31,6 +33,7 @@ public abstract class Figure implements IFigure {
                 new Field(FigureColor),
                 new Field(FigureColor)
         };
+        RotateCenter = Cells[1];
 
         MatrixView = new Field[] {
                 new Field(FigureColor),
@@ -71,16 +74,17 @@ public abstract class Figure implements IFigure {
 
     @Override
     public void Rotate() {
-        var tempX = Cells[0].Position.x;
-        var tempY = Cells[0].Position.y;
-
-        for (Field field : Cells) {
-            field.Position.x -= tempX;
-            field.Position.y -= tempY;
-        }
+        var tempX = RotateCenter.Position.x;
+        var tempY = RotateCenter.Position.y;
 
         for (Field cell : Cells) {
-            cell.Position = new Point(cell.Position.y, cell.Position.x);
+            cell.Position = new Point(cell.Position.y - tempY, cell.Position.x - tempX);
+            if (cell.Position.y == 1) {
+                cell.Position.y = -1;
+            }
+            else if (cell.Position.y == -1) {
+                cell.Position.y = 1;
+            }
         }
 
         for (Field cell : Cells) {
@@ -93,16 +97,17 @@ public abstract class Figure implements IFigure {
     public Field[] RotatePrediction() {
         var prediction = DeepClone();
 
-        var tempX = prediction[0].Position.x;
-        var tempY = prediction[0].Position.y;
-
-        for (Field field : prediction) {
-            field.Position.x -= tempX;
-            field.Position.y -= tempY;
-        }
+        var tempX = RotateCenter.Position.x;
+        var tempY = RotateCenter.Position.y;
 
         for (Field cell : prediction) {
-            cell.Position = new Point(cell.Position.y, cell.Position.x);
+            cell.Position = new Point(cell.Position.y - tempY, cell.Position.x - tempX);
+            if (cell.Position.y == 1) {
+                cell.Position.y = -1;
+            }
+            else if (cell.Position.y == -1) {
+                cell.Position.y = 1;
+            }
         }
 
         for (Field cell : prediction) {

@@ -1,6 +1,5 @@
 package GameController;
 
-import GameController.Interfaces.IKeyboardListener;
 import GameController.Interfaces.ILineBuildedListeners;
 import Helpers.RandomFigureCreator;
 import UI.Field;
