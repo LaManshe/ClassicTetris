@@ -6,6 +6,7 @@ import Helpers.RandomFigureCreator;
 import UI.Field;
 import UI.Interfaces.IFigure;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +53,8 @@ public class TetrisFieldController {
                 SpawnFigure();
             }
             else {
-                System.out.println("LOSE");
+                JOptionPane.showMessageDialog(null, "GAME OVER");
+                SwingUtilities.invokeLater(() -> System.exit(0));
             }
         }
 
@@ -103,7 +105,7 @@ public class TetrisFieldController {
         }
     }
 
-    private boolean CanMove(Field[] fields) {
+    public boolean CanMove(Field[] fields) {
         var isNotOutOfRange = Arrays.stream(fields).noneMatch(field ->
                 field.Position.x < 0 ||
                 field.Position.x > _columns - 1 ||

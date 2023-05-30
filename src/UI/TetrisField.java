@@ -4,8 +4,7 @@ import GameController.Interfaces.IKeyboardListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 public class TetrisField extends SizablePanel {
     private Field[][] Fields;

@@ -4,11 +4,7 @@ import GameController.Interfaces.ILayout;
 import GameController.Interfaces.IStartListeners;
 import UI.BackgroundPanel;
 import GameController.GameController;
-import UI.Title;
 import Window.TetrisWindow;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class Tetris implements ILayout {
     private final int CountColumns = 10;

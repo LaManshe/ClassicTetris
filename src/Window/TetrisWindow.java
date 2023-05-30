@@ -36,6 +36,5 @@ public class TetrisWindow {
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         _frame.setResizable(false);
         _frame.setLocationRelativeTo(null);
-
     }
 }
